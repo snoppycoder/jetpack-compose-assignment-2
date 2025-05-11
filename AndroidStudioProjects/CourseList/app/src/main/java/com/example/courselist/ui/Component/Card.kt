@@ -26,8 +26,8 @@ fun CourseCard(
             .fillMaxWidth()
             .animateContentSize(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface
+            containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
