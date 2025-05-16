@@ -3,45 +3,52 @@ package com.example.jetpack_compose_assignment_2
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.jetpack_compose_assignment_2.ui.screen.TodoListScreen
+import com.example.jetpack_compose_assignment_2.ui.screen.TodoDetailScreen
 import com.example.jetpack_compose_assignment_2.ui.theme.Jetpackcomposeassignment2Theme
+import com.example.jetpack_compose_assignment_2.ui.viewmodel.MainViewModel
+import com.example.jetpack_compose_assignment_2.ui.viewmodel.MainViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+        val app = application as MyApplication
+        val repository = app.todoRepository
+        val factory = MainViewModelFactory(repository)
+
         setContent {
             Jetpackcomposeassignment2Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                val navController = rememberNavController()
+                val viewModel: MainViewModel = viewModel(factory = factory)
+
+                // Setup NavHost with routes
+                NavHost(navController = navController, startDestination = "list") {
+                    composable("list") {
+                        TodoListScreen(
+                            viewModel = viewModel,
+                            navController = navController
+                        )
+                    }
+                    composable("detail/{todoId}") { backStackEntry ->
+                        val todoId = backStackEntry.arguments?.getString("todoId")?.toIntOrNull()
+                        if (todoId != null) {
+                            TodoDetailScreen(
+                                todoId = todoId,
+                                viewModel = viewModel,
+                                navBackStackEntry = backStackEntry
+                            )
+                        } else {
+                            // Handle null ID case
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Jetpackcomposeassignment2Theme {
-        Greeting("Android")
     }
 }
