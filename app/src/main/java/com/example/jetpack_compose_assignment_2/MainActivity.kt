@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                             TodoDetailScreen(
                                 todoId = todoId,
                                 viewModel = viewModel,
-                                navBackStackEntry = backStackEntry,
+
                                 navController = navController
                             )
                         } else {
