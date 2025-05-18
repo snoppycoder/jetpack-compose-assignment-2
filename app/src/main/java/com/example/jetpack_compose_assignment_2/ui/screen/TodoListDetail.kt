@@ -6,6 +6,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -58,17 +59,20 @@ fun TodoDetailScreen(
                     shape = MaterialTheme.shapes.medium,
                     tonalElevation = 6.dp,
                     shadowElevation = 8.dp,
-                    color = MaterialTheme.colorScheme.surfaceVariant
+                    color =  if (todo!!.completed)
+                        Color(0xFF00796B)
+                    else
+                        Color.Gray
                 ) {
                     Column(modifier = Modifier.padding(24.dp)) {
                         Text(
                             text = todo!!.title,
                             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            color = Color.White,
                             modifier = Modifier.padding(bottom = 12.dp)
                         )
 
-                        Divider(color = MaterialTheme.colorScheme.outline)
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outline)
 
                         Spacer(modifier = Modifier.height(16.dp))
 
@@ -92,12 +96,12 @@ private fun InfoRow(label: String, value: String) {
         Text(
             text = "$label:",
             style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = Color.White,
         )
         Text(
             text = value,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = Color.White,
         )
     }
 }
