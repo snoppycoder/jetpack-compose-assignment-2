@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.jetpack_compose_assignment_2.domain.model.Todo
@@ -37,7 +38,7 @@ fun TodoListScreen(viewModel: MainViewModel, navController: NavController) {
         topBar = {
             TopAppBar(
                 title = { Text("Your Todos") },
-//                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+
             )
         }
     ) { innerPadding ->
@@ -64,9 +65,12 @@ fun TodoListItem(todo: Todo, onClick: () -> Unit) {
             .fillMaxWidth()
             .clickable { onClick() },
         colors = CardDefaults.cardColors(
-            containerColor = if (todo.completed) Color(0xFFE8F5E9) else MaterialTheme.colorScheme.surface
+            containerColor = if (todo.completed)
+                Color(0xFFB2DFDB)
+            else
+                Color(0xFFFFF3E0)
         ),
-        elevation = CardDefaults.cardElevation(4.dp),
+        elevation = CardDefaults.cardElevation(6.dp),
         shape = MaterialTheme.shapes.medium
     ) {
         Row(
@@ -79,19 +83,23 @@ fun TodoListItem(todo: Todo, onClick: () -> Unit) {
                 Text(
                     text = todo.title,
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = Color.Black,
+                    fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = if (todo.completed) "Completed" else "Pending",
+                    text = if (todo.completed) "✅ Completed" else "⏳ Pending",
                     style = MaterialTheme.typography.bodySmall,
-                    color = if (todo.completed) Color(0xFF388E3C) else Color(0xFFF57C00)
+                    color = if (todo.completed)
+                        Color(0xFF00796B)
+                    else
+                        Color(0xFFEF6C00)
                 )
             }
 
             Icon(
                 imageVector = if (todo.completed) Icons.Default.CheckCircle else Icons.Filled.Close,
                 contentDescription = null,
-                tint = if (todo.completed) Color(0xFF388E3C) else Color(0xFFF57C00)
+                tint = if (todo.completed) Color(0xFF00796B) else Color(0xFFEF6C00)
             )
         }
     }
